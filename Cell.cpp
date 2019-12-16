@@ -10,7 +10,7 @@
 Cell::Cell()
 {
 	// Used mainly for error-checking that an empty constructor has not appeared in an actual puzzle.
-	this->value = -2;
+	this->value = 0;
 	// Index of row cell is in
 	this->rowIndex = -1;
 	// Index of column cell is in

@@ -19,7 +19,7 @@ public:
 	Parameters: None.
 	Output: Constructed Group object with empty cells.
 	*/
-	Group(Cell groupList[]);
+	Group();
 	/*
 	Purpose: Checks if the Group has any duplicate cell values in it.
 	Parameters: None.
@@ -32,9 +32,23 @@ public:
 	Output: The selected cell of the index, otherwise a generated cell with a value of -1.
 	*/
 	Cell getCell(int index);
+	/*
+	Purpose: Add Cell to list.
+	Parameters: The Cell to be added.
+	Output: None.
+	*/
+	void addCell(Cell newCell);
+	/*
+	Purpose: Print Cells to cout.
+	Parameters: Nope.
+	Output: Cell values to cout.
+	*/
+	void displayCells();
 private:
 	// array of values in group
 	Cell groupList[MAX];
+	// current index of next empty cell
+	int cell_index;
 };
 
 #endif

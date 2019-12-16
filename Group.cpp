@@ -5,15 +5,16 @@
 
 #include "Group.h"
 
-Group::Group(Cell list[])
+Group::Group()
 {
 	int i = 0;
 	// Transfer contents of the array to the object variable
 	while(i < MAX)
 	{
-		groupList[i] = list[i];
+		groupList[i] = Cell();
 		i++;
 	}
+	cell_index = 0;
 }
 
 bool Group::isLegal()
@@ -26,11 +27,11 @@ bool Group::isLegal()
 	{
 		// Decrement value so it maps to the right index
 		int value = element.getValue() - 1;
-		if (wasSeen[value]) 
+		if (value != -1 && wasSeen[value]) 
 		{
 			return false;
 		}
-		else
+		else if(value > -1 && value < MAX + 1)
 		{
 			wasSeen[value] = true;
 		}
@@ -47,4 +48,29 @@ Cell Group::getCell(int index)
 	else {
 		return Cell();
 	}
+}
+
+void Group::addCell(Cell newCell)
+{ 
+	if (cell_index < MAX) 
+	{
+		groupList[cell_index] = newCell;
+	}
+	cell_index++;
+}
+
+void Group::displayCells()
+{
+	for (Cell element : groupList)
+	{
+		if (element.getValue() != 0)
+		{
+			printf("%d  ", element.getValue());
+		}
+		else
+		{
+			printf("   ");
+		}
+	}
+	printf("\n");
 }
