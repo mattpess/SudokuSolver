@@ -47,8 +47,10 @@ Cell::Cell(int rowIndex, int colIndex, int boxIndex, int value)
 	// Index of block cell is in
 	this->boxIndex = boxIndex;
 	// Indicates if a cell is a provided hint cell
-	this->hint = true;
+	this->hint = false;
 }
+
+
 
 bool Cell::setValue(int newValue)
 {
@@ -71,6 +73,11 @@ int Cell::getGroup(int whichGroup)
 }
 
 bool Cell::isHint() { return hint; }
+
+void Cell::setHint(bool status)
+{
+	hint = status;
+}
 
 bool Cell::increment()
 {

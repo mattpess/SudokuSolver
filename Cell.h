@@ -27,7 +27,7 @@ public:
 	*/
 	Cell(int rowIndex, int colIndex, int boxIndex);
 	/*
-	Purpose: Constructor for hint Cell.
+	Purpose: Constructor for non-hint Cell.
 	Parameters: The index for its row, column, and box.
 	Output: Constructed Cell that cannot be changed.
 	*/
@@ -57,6 +57,12 @@ public:
 	Output: True if hint value, false otherwise.
 	*/
 	bool isHint();
+	/*
+	Purpose: Set the hint status.
+	Parameters: Bool to set the hint status to
+	Output: None.
+	*/
+	void setHint(bool status);
 	/*
 	Purpose: Increment value of cell
 	Parameters: None.
