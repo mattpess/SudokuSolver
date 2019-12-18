@@ -69,6 +69,7 @@ public:
 	Output: True if successful increment, false if value is already at max.
 	*/
 	bool increment();
+
 private:
 	// The value of the cell
 	int value;

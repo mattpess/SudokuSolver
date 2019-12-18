@@ -81,8 +81,14 @@ void Cell::setHint(bool status)
 
 bool Cell::increment()
 {
+	if (hint) { return false; }
 	// increment value if it is not MAX, otherwise revert back to empty value
-	value = (value != MAX) ? value + 1 : 0;
-	// return if increment was successful
-	return (value != 0);
+	if (value == MAX) {
+		value = 0;
+		return false;
+	}
+	else {
+		printf("Value during increment: %d\n",++value);
+		return true;
+	}
 }

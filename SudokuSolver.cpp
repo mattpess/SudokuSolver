@@ -55,21 +55,15 @@ int main()
 		// Inner loop handles row traversal 
 		for (int inner_loop = 0; inner_loop < MAX; inner_loop++)
 		{
-			// Do not populate cell if it is a hint cell
+			// Do not populate cell if it is a hint cell already created
 			if (!list[outer_loop][inner_loop].isHint())
 			{
-				// Random value generated to populate cell
-				int setVal = rand() % 30 + 1;
-				// Roughly 2/3 chance of cell being blank
-				if (setVal > MAX)
-				{
-					setVal = 0;
-				}
-				// Create cell with random value
-				list[outer_loop][inner_loop] = Cell(inner_loop, outer_loop, (((outer_loop) / 3) * 3) + ((inner_loop) / 3), setVal);
+
+				// Create cell with empty value
+				list[outer_loop][inner_loop] = Cell(inner_loop, outer_loop, (((outer_loop) / 3) * 3) + ((inner_loop) / 3), 0);
 				
 			}
-			// Link cell to its relevant groups
+			// Link cell to its relevant groups, even if hint cell
 			row[inner_loop].addCell(list[outer_loop][inner_loop]);
 			col[outer_loop].addCell(list[outer_loop][inner_loop]);
 			box[(((outer_loop) / 3) * 3) + ((inner_loop) / 3)].addCell(list[outer_loop][inner_loop]);
@@ -80,11 +74,48 @@ int main()
 			}
 			else
 			{
-				printf("    ");
+				printf("-   ");
 			}
 		}
 	}
-	printf("\n\n");
+	printf("\n\nBeginning to brute force solution.\n\n");
+	
+	int index = 0;
+	while (index < MAX * MAX && index >= 0) {
+		// increment if an empty cell
+		if (list[index / MAX][index % MAX].getValue() == 0)
+		{
+			list[index / MAX][index % MAX].increment();
+
+		}
+		printf("index: %d   value after increment: %d\n", index, list[index / MAX][index % MAX].getValue());
+		// check if cell is valid on all three groups 
+		if (row[(list[index / MAX][index % MAX].getGroup(0))].isLegal() 
+			&& col[(list[index / MAX][index % MAX].getGroup(1))].isLegal() 
+			&& box[(list[index / MAX][index % MAX].getGroup(2))].isLegal())
+		{
+			//printf("%d %d\n", index / MAX, index % MAX);
+			//if so increment index until not hint
+			do
+			{
+				index++;
+			} while (list[index / MAX][index % MAX].isHint());
+
+		}
+		//else increment value
+		else
+		{
+			while (list[index / MAX][index % MAX].increment() == false) {
+				//if value goes beyond MAX, decrement index and increment value until it does not return false
+				index--;
+			}
+		}
+		
+		
+		
+
+	}
+
 
 	looping = true;
 	while (looping) {

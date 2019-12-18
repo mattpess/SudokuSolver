@@ -20,20 +20,21 @@ Group::Group()
 bool Group::isLegal()
 {
 	// Set all to false
-	bool wasSeen[MAX] = { 0 };
+	int wasSeen[MAX] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 	// Loop through list tracking values
 	for (Cell element : groupList)
 	{
 		// Decrement value so it maps to the right index
 		int value = element.getValue() - 1;
-		if (value != -1 && wasSeen[value]) 
+		//printf("Value during isLegal(): %d\n", element.getValue());
+		if (value >= 0 && wasSeen[value] == 1) 
 		{
 			return false;
 		}
-		else if(value > -1 && value < MAX + 1)
+		else if(value > 0)
 		{
-			wasSeen[value] = true;
+			wasSeen[value] = 1;
 		}
 	}
 	return true;
@@ -50,12 +51,14 @@ Cell Group::getCell(int index)
 	}
 }
 
-void Group::addCell(Cell newCell)
+void Group::addCell(Cell& newCell)
 { 
+	// If the group does not already have 9 members
 	if (cell_index < MAX) 
 	{
 		groupList[cell_index] = newCell;
 	}
+	// Increment pointer to next available cell
 	cell_index++;
 }
 

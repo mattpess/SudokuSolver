@@ -37,7 +37,7 @@ public:
 	Parameters: The Cell to be added.
 	Output: None.
 	*/
-	void addCell(Cell newCell);
+	void addCell(Cell& newCell);
 	/*
 	Purpose: Print Cells to cout.
 	Parameters: Nope.
