@@ -1,6 +1,6 @@
 // Cell.h
 // 12/14/2019
-// Version 0.1
+// Version 1.0
 // Header for Cell objects; maintains the value and groups that a cell in a sudoku puzzle has.
 
 #ifndef CELL_H

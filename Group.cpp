@@ -1,57 +1,41 @@
 // Group.cpp
-// 12/14/2019
-// Version 0.1
+// 12/19/2019
+// Version 1.0
 // Implementation for Group objects; maintains the rows, columns, and boxes a sudoku puzzle has.
 
 #include "Group.h"
 
 Group::Group()
 {
-	int i = 0;
-	// Transfer contents of the array to the object variable
-	while(i < MAX)
-	{
-		groupList[i] = Cell();
-		i++;
-	}
+	
 	cell_index = 0;
+
 }
 
-bool Group::isLegal()
+bool Group::isLegal(Cell list[MAX][MAX])
 {
 	// Set all to false
 	int wasSeen[MAX] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 	// Loop through list tracking values
-	for (Cell element : groupList)
+	for (int element : groupList)
 	{
 		// Decrement value so it maps to the right index
-		int value = element.getValue() - 1;
+		int value = list[element/MAX][element%MAX].getValue();
 		//printf("Value during isLegal(): %d\n", element.getValue());
-		if (value >= 0 && wasSeen[value] == 1) 
+		if (value > 0 && wasSeen[value-1] == 1) 
 		{
 			return false;
 		}
 		else if(value > 0)
 		{
-			wasSeen[value] = 1;
+			wasSeen[value-1] = 1;
 		}
 	}
 	return true;
 }
 
-Cell Group::getCell(int index)
-{
-	if (index < MAX && index > -1)
-	{
-		return groupList[index];
-	}
-	else {
-		return Cell();
-	}
-}
-
-void Group::addCell(Cell& newCell)
+void Group::addCell(int newCell)
 { 
 	// If the group does not already have 9 members
 	if (cell_index < MAX) 
@@ -62,17 +46,18 @@ void Group::addCell(Cell& newCell)
 	cell_index++;
 }
 
-void Group::displayCells()
+void Group::displayCells(Cell list[MAX][MAX])
 {
-	for (Cell element : groupList)
+	for (int element : groupList)
 	{
-		if (element.getValue() != 0)
+		int value = list[element / MAX][element % MAX].getValue();
+		if (value != 0)
 		{
-			printf("%d  ", element.getValue());
+			printf("%d  ", value);
 		}
 		else
 		{
-			printf("   ");
+			printf("-  ");
 		}
 	}
 	printf("\n");

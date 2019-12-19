@@ -1,6 +1,6 @@
 // Cell.cpp
-// 12/14/2019
-// Version 0.1
+// 12/19/2019
+// Version 1.0
 // Implementation for Cell objects; maintains the value and groups that a cell in a sudoku puzzle has.
 
 #include "Cell.h"
@@ -88,7 +88,7 @@ bool Cell::increment()
 		return false;
 	}
 	else {
-		printf("Value during increment: %d\n",++value);
+		value++;
 		return true;
 	}
 }

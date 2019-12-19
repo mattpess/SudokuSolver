@@ -1,6 +1,6 @@
 // SudokuSolver.cpp
-// 12/14/2019
-// Version 0.1
+// 12/19/2019
+// Version 1.0
 // Main class of operation for the automated sudoku solving system.
 
 #include <iostream>
@@ -64,9 +64,9 @@ int main()
 				
 			}
 			// Link cell to its relevant groups, even if hint cell
-			row[inner_loop].addCell(list[outer_loop][inner_loop]);
-			col[outer_loop].addCell(list[outer_loop][inner_loop]);
-			box[(((outer_loop) / 3) * 3) + ((inner_loop) / 3)].addCell(list[outer_loop][inner_loop]);
+			row[inner_loop].addCell((inner_loop)+(outer_loop*MAX));
+			col[outer_loop].addCell((inner_loop)+(outer_loop * MAX));
+			box[(((outer_loop) / 3) * 3) + ((inner_loop) / 3)].addCell((inner_loop)+(outer_loop * MAX));
 			// Output cell
 			if (list[outer_loop][inner_loop].getValue() != 0)
 			{
@@ -88,11 +88,11 @@ int main()
 			list[index / MAX][index % MAX].increment();
 
 		}
-		printf("index: %d   value after increment: %d\n", index, list[index / MAX][index % MAX].getValue());
+		//printf("index: %d   value after increment: %d\n", index, list[index / MAX][index % MAX].getValue());
 		// check if cell is valid on all three groups 
-		if (row[(list[index / MAX][index % MAX].getGroup(0))].isLegal() 
-			&& col[(list[index / MAX][index % MAX].getGroup(1))].isLegal() 
-			&& box[(list[index / MAX][index % MAX].getGroup(2))].isLegal())
+		if (row[(list[index / MAX][index % MAX].getGroup(0))].isLegal(list) 
+			&& col[(list[index / MAX][index % MAX].getGroup(1))].isLegal(list) 
+			&& box[(list[index / MAX][index % MAX].getGroup(2))].isLegal(list))
 		{
 			//printf("%d %d\n", index / MAX, index % MAX);
 			//if so increment index until not hint
@@ -110,12 +110,22 @@ int main()
 				index--;
 			}
 		}
-		
+
 		
 		
 
 	}
 
+	// print out finished puzzle
+	for (int outer_loop = 0; outer_loop < MAX; outer_loop++) 
+	{
+		printf("\n\n");
+		for (int inner_loop = 0; inner_loop < MAX; inner_loop++)
+		{
+			printf("%d   ", list[outer_loop][inner_loop].getValue());
+		}
+	}
+	printf("\n\n");
 
 	looping = true;
 	while (looping) {
@@ -128,10 +138,10 @@ int main()
 			cin >> input;
 			if (input <= MAX && input > 0) 
 			{
-				row[input - 1].displayCells();
-				if (row[input - 1].isLegal()) 
+				row[input - 1].displayCells(list);
+				if (row[input - 1].isLegal(list)) 
 				{
-					printf("This group is also a legal group\n.");
+					printf("This group is also a legal group.\n");
 				}
 			}
 			break;
@@ -140,8 +150,8 @@ int main()
 			cin >> input;
 			if (input <= MAX && input > 0) 
 			{
-				col[input - 1].displayCells();
-				if (col[input - 1].isLegal())
+				col[input - 1].displayCells(list);
+				if (col[input - 1].isLegal(list))
 				{
 					printf("This group is also a legal group.\n");
 				}
@@ -152,8 +162,8 @@ int main()
 			cin >> input;
 			if (input <= MAX && input > 0) 
 			{
-				box[input - 1].displayCells();
-				if (box[input - 1].isLegal())
+				box[input - 1].displayCells(list);
+				if (box[input - 1].isLegal(list))
 				{
 					printf("This group is also a legal group.\n");
 				}
