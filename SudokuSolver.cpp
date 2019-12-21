@@ -23,26 +23,41 @@ int main()
 		
 		printf("Type in the row you would like to input on, or 0 to exit: ");
 		cin >> input;
-		if (input > 0 && input <= MAX)
+		if (!cin.fail())
 		{
-			printf("Type in the column you would like to input on: ");
-			cin >> input2;
-			if (input2 > 0 && input2 <= MAX)
+			if (input > 0 && input <= MAX)
 			{
-				printf("Type in the value you would like to input: ");
-				cin >> input3;
-				if (input2 > 0 && input2 <= MAX)
+				printf("Type in the column you would like to input on: ");
+				cin >> input2;
+				if (!cin.fail())
 				{
-					input--;
-					input2--;
-					list[input][input2] = Cell(input2, input, (((input) / 3) * 3) + ((input2) / 3), input3);
-					list[input][input2].setHint(true);
+					if (input2 > 0 && input2 <= MAX)
+					{
+						printf("Type in the value you would like to input: ");
+						cin >> input3;
+						if (!cin.fail())
+						{
+							if (input3 > 0 && input3 <= MAX)
+							{
+								printf("Placing value of %d at row %d and column %d.\n ", input3, input, input2);
+								input--;
+								input2--;
+								list[input][input2] = Cell(input2, input, (((input) / 3) * 3) + ((input2) / 3), input3);
+								list[input][input2].setHint(true);
+							}
+						}
+					}
 				}
 			}
+			else
+			{
+				looping = false;
+			}
 		}
-		else
+		if (cin.fail())
 		{
-			looping = false;
+			cin.clear();
+			cin.ignore(256, '\n');
 		}
 	}
 
@@ -131,49 +146,67 @@ int main()
 	while (looping) {
 		printf("Type 1 for a row, 2 for a column, 3 for a box, and 4 to exit: ");
 		cin >> input;
-		switch (input)
+		if (!cin.fail())
 		{
-		case 1:
-			printf("Type the number of the row you would like to show: ");
-			cin >> input;
-			if (input <= MAX && input > 0) 
+			switch (input)
 			{
-				row[input - 1].displayCells(list);
-				if (row[input - 1].isLegal(list)) 
+			case 1:
+				printf("Type the number of the row you would like to show: ");
+				cin >> input;
+				if (!cin.fail())
 				{
-					printf("This group is also a legal group.\n");
+					if (input <= MAX && input > 0)
+					{
+						row[input - 1].displayCells(list);
+						if (row[input - 1].isLegal(list))
+						{
+							printf("This group is also a legal group.\n");
+						}
+					}
 				}
-			}
-			break;
-		case 2:
-			printf("Type the number of the column you would like to show: ");
-			cin >> input;
-			if (input <= MAX && input > 0) 
-			{
-				col[input - 1].displayCells(list);
-				if (col[input - 1].isLegal(list))
+				break;
+			case 2:
+				printf("Type the number of the column you would like to show: ");
+				cin >> input;
+				if (!cin.fail())
 				{
-					printf("This group is also a legal group.\n");
+					if (input <= MAX && input > 0)
+					{
+						col[input - 1].displayCells(list);
+						if (col[input - 1].isLegal(list))
+						{
+							printf("This group is also a legal group.\n");
+						}
+					}
 				}
-			}
-			break;
-		case 3:
-			printf("Type the number of the box you would like to show: ");
-			cin >> input;
-			if (input <= MAX && input > 0) 
-			{
-				box[input - 1].displayCells(list);
-				if (box[input - 1].isLegal(list))
+				break;
+			case 3:
+				printf("Type the number of the box you would like to show: ");
+				cin >> input;
+				if (!cin.fail())
 				{
-					printf("This group is also a legal group.\n");
+					if (input <= MAX && input > 0)
+					{
+						box[input - 1].displayCells(list);
+						if (box[input - 1].isLegal(list))
+						{
+							printf("This group is also a legal group.\n");
+						}
+					}
 				}
+				break;
+			case 4:
+				looping = false;
+				break;
 			}
-			break;
-		case 4:
-			looping = false;
-			break;
+		}
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(256, '\n');
 		}
 	}
+	
 	
 
 
