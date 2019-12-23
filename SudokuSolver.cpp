@@ -57,6 +57,7 @@ int main()
 				looping = false;
 			}
 		}
+		// Cin input must be check for being valid int inputs or else they are dropped.
 		if (cin.fail())
 		{
 			cin.clear();
@@ -104,7 +105,6 @@ int main()
 	}
 
 	// Check if hints provided are already invalid in a group and will never be solvable.
-
 	for (Group element : row)
 	{
 		if (!element.isLegal(list))
@@ -180,6 +180,7 @@ int main()
 	printf("\n\n");
 
 	looping = true;
+	// User can now check each row if desired to print them out and confirm they are all valid
 	while (looping) {
 		printf("Type 1 for a row, 2 for a column, 3 for a box, and 4 to exit: ");
 		cin >> input;
@@ -237,6 +238,7 @@ int main()
 				break;
 			}
 		}
+		// Cin input must be check for being valid int inputs or else they are dropped.
 		if (cin.fail())
 		{
 			cin.clear();
