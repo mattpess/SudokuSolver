@@ -17,7 +17,9 @@ int main()
 	Group box[MAX];
 
 	bool looping = true;
-	int input, input2, input3;
+	int input, input2, input3, hints = 0;
+
+	// start hint input loop
 	while (looping) 
 	{
 		
@@ -44,6 +46,7 @@ int main()
 								input2--;
 								list[input][input2] = Cell(input2, input, (((input) / 3) * 3) + ((input2) / 3), input3);
 								list[input][input2].setHint(true);
+								hints++;
 							}
 						}
 					}
@@ -59,6 +62,12 @@ int main()
 			cin.clear();
 			cin.ignore(256, '\n');
 		}
+	}
+
+	// if there are under 17 hints, there are multiple solutions to a puzzle
+	if (hints < 17)
+	{
+		printf("\n\nYou only have supplied %d hints; your puzzle will have multiple solutions and the system will only provide one.\n\n", hints);
 	}
 
 	// Random cell population loop
@@ -93,6 +102,34 @@ int main()
 			}
 		}
 	}
+
+	// Check if hints provided are already invalid in a group and will never be solvable.
+
+	for (Group element : row)
+	{
+		if (!element.isLegal(list))
+		{
+			printf("\n\nYou have provided an invalid hint in a row.\n");
+			exit(1);
+		}
+	}
+	for (Group element : col)
+	{
+		if (!element.isLegal(list))
+		{
+			printf("\n\nYou have provided an invalid hint in a column.\n");
+			exit(1);
+		}
+	}
+	for (Group element : box)
+	{
+		if (!element.isLegal(list))
+		{
+			printf("\n\nYou have provided an invalid hint in a box.\n");
+			exit(1);
+		}
+	}
+
 	printf("\n\nBeginning to brute force solution.\n\n");
 	
 	int index = 0;
