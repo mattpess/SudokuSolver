@@ -10,7 +10,7 @@
 
 int main()
 {
-	srand(time(NULL));
+	
 	Cell list[MAX][MAX];
 	Group row[MAX];
 	Group col[MAX];
@@ -25,18 +25,21 @@ int main()
 		
 		printf("Type in the row you would like to input on, or 0 to exit: ");
 		cin >> input;
+		// confirms that inputs are integers
 		if (!cin.fail())
 		{
 			if (input > 0 && input <= MAX)
 			{
 				printf("Type in the column you would like to input on: ");
 				cin >> input2;
+				// confirms that inputs are integers
 				if (!cin.fail())
 				{
 					if (input2 > 0 && input2 <= MAX)
 					{
 						printf("Type in the value you would like to input: ");
 						cin >> input3;
+						// confirms that inputs are integers
 						if (!cin.fail())
 						{
 							if (input3 > 0 && input3 <= MAX)
@@ -70,8 +73,6 @@ int main()
 	{
 		printf("\n\nYou only have supplied %d hints; your puzzle will have multiple solutions and the system will only provide one.\n\n", hints);
 	}
-
-	// Random cell population loop
 
 	// Outer loop handles column traversal
 	for (int outer_loop = 0; outer_loop < MAX; outer_loop++)
@@ -140,13 +141,11 @@ int main()
 			list[index / MAX][index % MAX].increment();
 
 		}
-		//printf("index: %d   value after increment: %d\n", index, list[index / MAX][index % MAX].getValue());
 		// check if cell is valid on all three groups 
 		if (row[(list[index / MAX][index % MAX].getGroup(0))].isLegal(list) 
 			&& col[(list[index / MAX][index % MAX].getGroup(1))].isLegal(list) 
 			&& box[(list[index / MAX][index % MAX].getGroup(2))].isLegal(list))
 		{
-			//printf("%d %d\n", index / MAX, index % MAX);
 			//if so increment index until not hint
 			do
 			{
