@@ -6,68 +6,121 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <fstream>
+#include <string>
+#include <sstream>
 #include "Group.h"
 
 int main()
 {
-	
+	int input_choice;
 	Cell list[MAX][MAX];
 	Group row[MAX];
 	Group col[MAX];
 	Group box[MAX];
+	int input, input2, input3;
 
 	bool looping = true;
-	int input, input2, input3, hints = 0;
+	int hints = 0;
 
-	// start hint input loop
-	while (looping) 
+	// decision between file input and text input
+	do
 	{
+		printf("Input 1 for file input of hints or 2 for console input of hints: ");
 		
-		printf("Type in the row you would like to input on, or 0 to exit: ");
-		cin >> input;
-		// confirms that inputs are integers
-		if (!cin.fail())
+		cin >> input_choice;
+	}
+	while (cin.fail());
+	
+	if (input_choice == 1)
+	{
+
+
+		// begin file handling
+		string file_input;
+		printf("Type the file name with extension containing hint inputs. Each line should be formatted 'row column value': ");
+		cin >> file_input;
+		ifstream infile(file_input);
+
+		if (infile.fail())
 		{
-			if (input > 0 && input <= MAX)
+			printf("File does not exist.\n");
+			exit(1);
+		}
+
+		// start hint input loop
+		// references: https://stackoverflow.com/questions/7868936/read-file-line-by-line-using-ifstream-in-c
+
+		string line;
+		while (getline(infile, line))
+		{
+			istringstream iss(line);
+			int input, input2, input3;
+			if (!(iss >> input >> input2 >> input3))
 			{
-				printf("Type in the column you would like to input on: ");
-				cin >> input2;
-				// confirms that inputs are integers
-				if (!cin.fail())
+				printf("Invalid file input.\n");
+			}
+			if (input > 0 && input <= MAX && input2 > 0 && input2 <= MAX && input3 > 0 && input3 <= MAX)
+			{
+				input--;
+				input2--;
+				list[input][input2] = Cell(input2, input, (((input) / 3) * 3) + ((input2) / 3), input3);
+				list[input][input2].setHint(true);
+				hints++;
+			}
+		}
+	}
+	else
+	{
+		while (looping)
+		{
+
+			printf("Type in the row you would like to input on, or 0 to exit: ");
+			cin >> input;
+			// confirms that inputs are integers
+			if (!cin.fail())
+			{
+				if (input > 0 && input <= MAX)
 				{
-					if (input2 > 0 && input2 <= MAX)
+					printf("Type in the column you would like to input on: ");
+					cin >> input2;
+					// confirms that inputs are integers
+					if (!cin.fail())
 					{
-						printf("Type in the value you would like to input: ");
-						cin >> input3;
-						// confirms that inputs are integers
-						if (!cin.fail())
+						if (input2 > 0 && input2 <= MAX)
 						{
-							if (input3 > 0 && input3 <= MAX)
+							printf("Type in the value you would like to input: ");
+							cin >> input3;
+							// confirms that inputs are integers
+							if (!cin.fail())
 							{
-								printf("Placing value of %d at row %d and column %d.\n ", input3, input, input2);
-								input--;
-								input2--;
-								list[input][input2] = Cell(input2, input, (((input) / 3) * 3) + ((input2) / 3), input3);
-								list[input][input2].setHint(true);
-								hints++;
+								if (input3 > 0 && input3 <= MAX)
+								{
+									printf("Placing value of %d at row %d and column %d.\n ", input3, input, input2);
+									input--;
+									input2--;
+									list[input][input2] = Cell(input2, input, (((input) / 3) * 3) + ((input2) / 3), input3);
+									list[input][input2].setHint(true);
+									hints++;
+								}
 							}
 						}
 					}
 				}
+				else
+				{
+					looping = false;
+				}
 			}
-			else
+			// Cin input must be check for being valid int inputs or else they are dropped.
+			if (cin.fail())
 			{
-				looping = false;
+				cin.clear();
+				cin.ignore(256, '\n');
 			}
-		}
-		// Cin input must be check for being valid int inputs or else they are dropped.
-		if (cin.fail())
-		{
-			cin.clear();
-			cin.ignore(256, '\n');
 		}
 	}
-
+	
 	// if there are under 17 hints, there are multiple solutions to a puzzle
 	if (hints < 17)
 	{
@@ -177,76 +230,5 @@ int main()
 		}
 	}
 	printf("\n\n");
-
-	looping = true;
-	// User can now check each row if desired to print them out and confirm they are all valid
-	while (looping) {
-		printf("Type 1 for a row, 2 for a column, 3 for a box, and 4 to exit: ");
-		cin >> input;
-		if (!cin.fail())
-		{
-			switch (input)
-			{
-			case 1:
-				printf("Type the number of the row you would like to show: ");
-				cin >> input;
-				if (!cin.fail())
-				{
-					if (input <= MAX && input > 0)
-					{
-						row[input - 1].displayCells(list);
-						if (row[input - 1].isLegal(list))
-						{
-							printf("This group is also a legal group.\n");
-						}
-					}
-				}
-				break;
-			case 2:
-				printf("Type the number of the column you would like to show: ");
-				cin >> input;
-				if (!cin.fail())
-				{
-					if (input <= MAX && input > 0)
-					{
-						col[input - 1].displayCells(list);
-						if (col[input - 1].isLegal(list))
-						{
-							printf("This group is also a legal group.\n");
-						}
-					}
-				}
-				break;
-			case 3:
-				printf("Type the number of the box you would like to show: ");
-				cin >> input;
-				if (!cin.fail())
-				{
-					if (input <= MAX && input > 0)
-					{
-						box[input - 1].displayCells(list);
-						if (box[input - 1].isLegal(list))
-						{
-							printf("This group is also a legal group.\n");
-						}
-					}
-				}
-				break;
-			case 4:
-				looping = false;
-				break;
-			}
-		}
-		// Cin input must be check for being valid int inputs or else they are dropped.
-		if (cin.fail())
-		{
-			cin.clear();
-			cin.ignore(256, '\n');
-		}
-	}
-	
-	
-
-
 }
 
